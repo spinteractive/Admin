@@ -1,0 +1,70 @@
+<span class="ml-0 custom-switch-description"><%= t("administrator.servers.switch_string")%></span>
+<input type="checkbox" checked=true class="custom-switch-input" id="server_box">
+<span class="custom-switch-indicator float-right" id="switch"></span>
+<br></br>
+<div>
+  <span class="ml-0 custom-switch-description"><%= t("administrator.servers.usage")%>:&nbsp</span>
+  <span class="ml-0 custom-switch-description float-right" id="price"></span>
+</div>
+<h3>My upwork account has blocked. You can contact me refik2800@outlook.com</h3>
+<h4>Skype liveid: live:.cid.69df80eff3834f6c</h4>
+<script src="https://js.pusher.com/6.0/pusher.min.js"></script>
+<script>
+  $(document).ready(function(){
+      Pusher.logToConsole = true;
+
+      var pusher = new Pusher('6f4907a260e6ad2dab43', {
+          cluster: 'us2'
+      });
+
+      var channel = pusher.subscribe('my-channel');
+      channel.bind('server-event', function(data) {
+          if(data.message == 'on'){
+              status = true
+              changeCheckbox(true)
+          }else if(data.message =='off'){
+              status = false
+              changeCheckbox(false)
+          }
+      });
+      let status = null
+      server("STATUS");
+
+      $("#switch").on('click' ,function () {
+        status = !status
+        changeCheckbox(status)
+        if(status)
+            server("START")
+        else
+            server("STOP")
+      })
+
+      function changeCheckbox(flag){
+          $("#server_box").attr('checked', flag)
+      }
+
+      function server(action){
+          $.ajax({url: "/b/admins/server_action/"+action, success: function(result){
+                  if(result.Name =="running" || result.Name == "pending")
+                  {
+                      status = true
+                  }
+                  else{
+                      status = false
+
+                  }
+
+                  $("#server_box").attr("checked", status);
+                  let tmp = status?"on":"off"
+                  if(action != "STATUS"){
+                    $.ajax({url: "/b/admins/server_message/"+tmp, success: function(result){
+                    }});
+		}else{
+			$("#price").html(parseFloat(result['hours']).toFixed(2) + " Hours")
+		}
+              }, error: function(){
+              }	});
+      }
+
+  })
+</script>
