@@ -57,11 +57,11 @@
                   if(action != "STATUS"){
                     $.ajax({url: "/b/admins/server_message/"+tmp, success: function(result){
                     }});
-		}else{
-			$("#price").html(parseFloat(result['hours']).toFixed(2) + " Hours")
-		}
+    }else{
+      $("#price").html(parseFloat(result['hours']).toFixed(2) + " Hours")
+    }
               }, error: function(){
-              }	});
+              } });
       }
 
   })
