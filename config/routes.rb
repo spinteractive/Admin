@@ -45,6 +45,11 @@ Rails.application.routes.draw do
     get '/servers', to: 'admins#servers', as: :admin_servers
     get '/server_message/:message', to: 'admins#server_message', as: :admin_server_message
     get '/server_action/:message', to: 'admins#server_action', as: :admin_server_action
+    resources :billings do
+      collection do
+        post :checkout
+      end  
+    end
     # Manage Users
     get '/edit/:user_uid', to: 'admins#edit_user', as: :admin_edit_user
     post '/ban/:user_uid', to: 'admins#ban_user', as: :admin_ban

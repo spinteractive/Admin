@@ -164,6 +164,8 @@ en:
       title: Server Management
       switch_string: Toggle switch on/off the server
       usage: Usage during last 30 Days
+    billings:
+      title: Billings
   add_to_google_calendar: "Add to Google Calendar"
   bigbluebutton: BigBlueButton
   bigbluebutton_exception: Oops, there was an error when starting the meeting!

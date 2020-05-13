@@ -1,0 +1,36 @@
+<div class="container pt-6">
+  <%= render "shared/components/subtitle", subtitle: t("administrator.title"), search: false %>
+
+  <div class="row">
+    <div class="col-lg-3 mb-4">
+      <%= render "admins/components/menu_buttons" %>
+    </div>
+    <div class="col-lg-9">
+    	<%= javascript_include_tag "https://js.stripe.com/v2/" %>
+			<script>
+		  	Stripe.setPublishableKey("pk_live_FwrwfRZbHQkyMA7fvNif43cM00OjLITBDz");
+			</script>
+			<%= form_tag checkout_billings_path, method: :post , id: "checkout" do %>
+				<%= label_tag "Card Number", nil, required: true %>
+				<div class="control-group">
+				  <div class="controls">
+				    <%= text_field_tag :card_number, nil, class: "input-block-level", "data-stripe" => "number" %>
+				  </div>
+				</div>
+				<%= label_tag "Card Verification", nil, required: true %>
+				<div class="control-group">
+				  <div class="controls">
+				    <%= text_field_tag :card_verification, nil, class: "input-block-level", "data-stripe" => "cvv" %>
+				  </div>
+				</div>
+				<%= label_tag "Card Expires", nil, required: true %>
+				<%= select_tag :exp_month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }), include_blank: false, "data-stripe" => "exp-month", class: "span2" %>
+				<%= select_tag :exp_year, options_for_select((Date.today.year..(Date.today.year+10)).to_a), include_blank: false, "data-stripe" => "exp-year", class: "span1" %>
+				<div class="actions">
+				  <%= submit_tag " Payment", class: "btn", style: "color: white;background: rgb(242, 118, 73);" %>
+				</div>
+			<% end %>	
+			
+    </div>
+  </div>
+</div>
