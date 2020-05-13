@@ -12,7 +12,6 @@ jQuery(function ($) {
     var $form, token;
     $form = $("#checkout");
     if (response.error) {
-      debugger
       show_error(response.error.message);
       $form.find("input[type=submit]").prop("disabled", false);
     } else {
