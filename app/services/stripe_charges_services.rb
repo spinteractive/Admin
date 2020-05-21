@@ -7,12 +7,24 @@ class StripeChargesServices
   end
 
   def call
-    create_charge(find_customer)
+    create_subscription(find_customer)
   end
 
   private
 
   attr_accessor :user, :stripe_token, :order
+
+  def create_subscription(customer)
+    subscription = Stripe::Subscription.create(
+      customer: customer.id,
+      items: [{ price: 'price_HJvwrEG3aCt1Mn' }],
+      expand: ['latest_invoice.payment_intent']
+    )
+    Rails.logger.info(subscription.inspect)
+    byebug
+    user.update(subscription_token: subscription.id)
+    subscription
+  end
 
   def find_customer
     if user.stripe_token
@@ -33,14 +45,5 @@ class StripeChargesServices
     )
     user.update(stripe_token: customer.id)
     customer
-  end
-
-  def create_charge(customer)
-    Stripe::Charge.create(
-      customer: customer.id,
-      amount: 100,
-      description: customer.email,
-      currency: DEFAULT_CURRENCY
-    )
   end
 end
