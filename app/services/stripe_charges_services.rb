@@ -17,11 +17,8 @@ class StripeChargesServices
   def create_subscription(customer)
     subscription = Stripe::Subscription.create(
       customer: customer.id,
-      items: [{ price: 'price_HJvwrEG3aCt1Mn' }],
-      expand: ['latest_invoice.payment_intent']
+      items: [{ price: 'price_HJvwrEG3aCt1Mn' }]
     )
-    Rails.logger.info(subscription.inspect)
-    byebug
     user.update(subscription_token: subscription.id)
     subscription
   end
