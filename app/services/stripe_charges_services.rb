@@ -19,7 +19,7 @@ class StripeChargesServices
       customer: customer.id,
       items: [{ price: 'price_HJvwrEG3aCt1Mn' }]
     )
-    user.update(subscription_token: subscription.id)
+    user.update(subscription_token: subscription.items.first.id)
     subscription
   end
 
