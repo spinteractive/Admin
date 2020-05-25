@@ -1,5 +1,6 @@
 class StripeChargesServices
   DEFAULT_CURRENCY = 'usd'.freeze
+  BILLING_TIME_ZONE = '+00:00'
   
   def initialize(params, user)
     @stripe_token = params[:stripeToken]
@@ -15,11 +16,17 @@ class StripeChargesServices
   attr_accessor :user, :stripe_token, :order
 
   def create_subscription(customer)
+    now = Time.now.getlocal(BILLING_TIME_ZONE)
+    end_of_period = Time.new(now.year, now.month + 1, 1, 0, 0, 0, BILLING_TIME_ZONE)
+
     subscription = Stripe::Subscription.create(
       customer: customer.id,
-      items: [{ price: 'price_HJvwrEG3aCt1Mn' }]
+      items: [{ price: 'price_HJvwrEG3aCt1Mn' }],
+      billing_cycle_anchor: end_of_period.to_i
     )
+
     user.update(subscription_token: subscription.items.first.id)
+
     subscription
   end
 
