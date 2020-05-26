@@ -1,7 +1,7 @@
 class StripeUsageService
   def call
     User.where.not(subscription_token: nil).each do |user|
-      usage_in_hours = UsageService.new.call['hours']
+      usage_in_hours = ServerService.new.status['hours']
       send_usage_to_stripe(usage_in_hours, user)
     end
   end

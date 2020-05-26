@@ -1,5 +1,6 @@
 class BillingsController < ApplicationController
 	rescue_from Stripe::CardError, with: :catch_exception
+  skip_before_action :verify_authenticity_token, only: :payment_failed
 
 	def index
 	end
@@ -8,6 +9,16 @@ class BillingsController < ApplicationController
     StripeChargesServices.new(charges_params, current_user).call
     flash[:success] = "Amount paid successfully"
     redirect_to billings_path
+  end
+
+  def payment_failed
+    payload = request.body.read
+    data = JSON.parse(payload, symbolize_names: true)
+    event = Stripe::Event.construct_from(data)
+
+    return unless event['type'] == 'invoice.payment_failed'
+
+    ServerService.new.stop
   end
 
   private
