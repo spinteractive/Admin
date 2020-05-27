@@ -8,7 +8,8 @@ class StripeChargesServices
   end
 
   def call
-    create_subscription(find_customer)
+    subscription = create_subscription(find_customer)
+    subscription.pending_setup_intent.nil?
   end
 
   private
@@ -22,7 +23,8 @@ class StripeChargesServices
     subscription = Stripe::Subscription.create(
       customer: customer.id,
       items: [{ price: 'price_HJvwrEG3aCt1Mn' }],
-      billing_cycle_anchor: end_of_period.to_i
+      billing_cycle_anchor: end_of_period.to_i,
+      expand: ['pending_setup_intent']
     )
 
     user.update(subscription_token: subscription.items.first.id)

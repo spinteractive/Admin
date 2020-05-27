@@ -6,8 +6,13 @@ class BillingsController < ApplicationController
 	end
 
   def checkout
-    StripeChargesServices.new(charges_params, current_user).call
-    flash[:success] = "Amount paid successfully"
+    success = StripeChargesServices.new(charges_params, current_user).call
+    if success
+      flash[:success] = 'Subscribed successfully'
+    else
+      flash[:alert] = 'Card authorization failed'
+    end
+
     redirect_to billings_path
   end
 
@@ -35,7 +40,7 @@ class BillingsController < ApplicationController
   end
 
   def catch_exception(exception)
-    flash[:error] = exception.message
+    flash[:alert] = exception.message
     redirect_to billings_path
   end
 end
