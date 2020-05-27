@@ -23,6 +23,15 @@ services:
 # When using postgresql as the database
     links:
       - db
+  cron_job:
+    build: .
+    command: crond -f
+    env_file: .env
+    restart: unless-stopped
+    volumes:
+      - ./log:/usr/src/app/log
+    links:
+      - db
   db:
     image: postgres:9.5
     restart: unless-stopped
