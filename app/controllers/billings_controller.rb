@@ -13,13 +13,20 @@ class BillingsController < ApplicationController
 
   def payment_failed
     payload = request.body.read
-    data = JSON.parse(payload, symbolize_names: true)
-    event = Stripe::Event.construct_from(data)
+    signature_header = request.env['HTTP_STRIPE_SIGNATURE']
+    webhook_secret = Rails.application.secrets.stripe_webhook_secret
+    event = Stripe::Webhook.construct_event(payload, signature_header, webhook_secret)
 
     return unless event['type'] == 'invoice.payment_failed'
 
     ServerService.new.stop
+  rescue JSON::ParserError
+    head :bad_request
+  rescue Stripe::SignatureVerificationError
+    logger.info 'Webhook signature verification failed.'
+    head :bad_request
   end
+
 
   private
 
