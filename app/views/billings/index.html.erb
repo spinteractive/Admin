@@ -6,6 +6,13 @@
       <%= render "admins/components/menu_buttons" %>
     </div>
     <div class="col-lg-9">
+
+      <% if current_user.subscription_token %>
+
+        <p>You have an active subscription.</p>
+
+      <% else %>
+
       <%= form_tag checkout_billings_path, method: :post , id: "checkout", data: { stripe_key: Rails.application.secrets.stripe_publishable_key } do %>
 				<%= label_tag "Card Number", nil, required: true %>
 				<div class="control-group">
@@ -26,6 +33,8 @@
 				  <%= submit_tag " Payment", class: "btn", style: "color: white;background: rgb(242, 118, 73);" %>
 				</div>
 			<% end %>	
+
+      <% end %>
 			
     </div>
   </div>
