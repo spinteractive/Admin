@@ -24,7 +24,10 @@ class BillingsController < ApplicationController
 
     return unless event['type'] == 'invoice.payment_failed'
 
-    ServerService.new.stop
+    user = User.find_by(stripe_token: event.data.object.customer)
+    return unless user
+
+    ServerService.new(user.instance).stop
   rescue JSON::ParserError
     head :bad_request
   rescue Stripe::SignatureVerificationError

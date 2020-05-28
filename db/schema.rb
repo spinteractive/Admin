@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_21_173651) do
+ActiveRecord::Schema.define(version: 2020_05_28_104653) do
 
   create_table "features", force: :cascade do |t|
     t.integer "setting_id"
@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 2020_05_21_173651) do
     t.boolean "deleted", default: false, null: false
     t.string "stripe_token"
     t.string "subscription_token"
+    t.string "instance"
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["deleted"], name: "index_users_on_deleted"
     t.index ["email"], name: "index_users_on_email"
