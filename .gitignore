@@ -46,3 +46,15 @@ config/terms.md
 coverage*
 
 /atom-sftp-sync.json
+
+.bash_history
+.bash_logout
+.bashrc
+.ssh/
+.viminfo
+*.swp
+*.save
+*.save.1
+.gem/
+.gitconfig
+.lesshst
