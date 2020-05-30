@@ -40,14 +40,14 @@ class StripeChargesServices
   end
 
   def update_customer
-    Stripe::Customer.create_source(
+    card = Stripe::Customer.create_source(
       @user.stripe_token,
       source: @card_token
     )
 
     Stripe::Customer.update(
       @user.stripe_token,
-      default_source: @card_token
+      default_source: card.id
     )
   end
 
