@@ -11,7 +11,11 @@ class StripeChargesServices
     create_or_update_customer_with_card
 
     subscription = create_or_fetch_subscription
-    subscription.pending_setup_intent.nil?
+
+    success = subscription.pending_setup_intent.nil?
+    @user.update(payment_success: success)
+
+    success
   end
 
   private

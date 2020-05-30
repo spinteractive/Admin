@@ -27,6 +27,7 @@ class BillingsController < ApplicationController
     user = User.find_by(stripe_token: event.data.object.customer)
     return unless user
 
+    user.update(payment_success: false)
     ServerService.new(user.instance).stop
   rescue JSON::ParserError
     head :bad_request
