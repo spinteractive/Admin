@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_30_144841) do
+ActiveRecord::Schema.define(version: 2020_05_30_105643) do
 
   create_table "features", force: :cascade do |t|
     t.integer "setting_id"
@@ -120,6 +120,10 @@ ActiveRecord::Schema.define(version: 2020_01_30_144841) do
     t.string "activation_digest"
     t.datetime "activated_at"
     t.boolean "deleted", default: false, null: false
+    t.string "stripe_token"
+    t.string "subscription_token"
+    t.string "instance"
+    t.boolean "payment_success"
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["deleted"], name: "index_users_on_deleted"
     t.index ["email"], name: "index_users_on_email"

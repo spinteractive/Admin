@@ -54,6 +54,12 @@ RUN apk update \
 
 COPY --from=base $RAILS_ROOT $RAILS_ROOT
 
+# Create empty crontab file
+RUN crontab -l | { cat; echo ""; } | crontab -
+
+# Update crontab file using whenever command
+RUN bundle exec whenever --update-crontab
+
 # Expose port 80.
 EXPOSE 80
 

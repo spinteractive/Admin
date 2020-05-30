@@ -1,4 +1,12 @@
-jQuery(function ($) {
+$(document).on('turbolinks:load', setupCheckout);
+
+function setupCheckout() {
+  if ($('#checkout').length === 0) {
+    return;
+  }
+
+  Stripe.setPublishableKey($('#checkout').data('stripe-key'));
+
   var show_error, stripeResponseHandler;
   $("#checkout").submit(function (event) {
     var $form;
@@ -30,4 +38,4 @@ jQuery(function ($) {
     alert(message);
     return false;
   };
-});
+}
