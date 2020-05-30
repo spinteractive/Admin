@@ -188,7 +188,7 @@ en:
     bigbluebutton:
       help: Please make sure the proper steps have been taken. <a href="%{doc_link}">Learn more</a>
       message: Invalid BigBlueButton Endpoint and Secret
-      title: Server Error
+      title: Please <a href="%{server_link}">Start the Server</a> to See Details
     internal:
       message: Looks like something went wrong on our end.
       help: The error has been logged, we'll take a look!
