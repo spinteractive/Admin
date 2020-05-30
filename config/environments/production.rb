@@ -155,4 +155,6 @@ Rails.application.configure do
 
   # Set the relative url root for deployment to a subdirectory.
   config.relative_url_root = ENV['RELATIVE_URL_ROOT'] || "/b" if ENV['RELATIVE_URL_ROOT'] != "/"
+
+  config.x.stripe.price_id = 'price_HNAtQLpU7l00Is'
 end

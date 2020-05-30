@@ -22,7 +22,7 @@ class StripeChargesServices
 
     subscription = Stripe::Subscription.create(
       customer: customer.id,
-      items: [{ price: 'price_HJvwrEG3aCt1Mn' }],
+      items: [{ price: Rails.configuration.x.stripe.price_id }],
       billing_cycle_anchor: end_of_period.to_i,
       expand: ['pending_setup_intent']
     )
