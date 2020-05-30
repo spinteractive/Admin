@@ -44,17 +44,18 @@ class AdminsController < ApplicationController
   end
 
   def server_action
-    message = params[:message] || "STATUS"
-    url = URI.parse("https://kje753t5r8.execute-api.us-east-2.amazonaws.com/api?action=" + message)
-    request = Net::HTTP::Get.new(url)
-    request["Content-Type"] = 'application/json'
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-    response = http.request(request)
-    response_body = JSON.parse(response.read_body)
-    puts response_body
-    render json:response_body
+    state = case params[:message]
+            when 'START'
+              ServerService.new(current_user.instance).start
+            when 'STOP'
+              ServerService.new(current_user.instance).stop
+            else
+              ServerService.new(current_user.instance).status
+            end
+
+    render json: state
   end
+
   # GET /admins
   def index
     # Initializa the data manipulation variables
