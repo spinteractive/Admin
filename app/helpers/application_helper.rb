@@ -65,7 +65,11 @@ module ApplicationHelper
   def active_page
     route = Rails.application.routes.recognize_path(request.env['PATH_INFO'])
 
-    route[:action]
+    if route[:controller] == 'billings'
+      route[:controller] + '/' + route[:action]
+    else
+      route[:action]
+    end
   end
 
   def role_colour(role)
