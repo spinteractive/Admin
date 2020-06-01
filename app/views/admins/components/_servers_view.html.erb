@@ -1,6 +1,6 @@
 <span class="ml-0 custom-switch-description"><%= t("administrator.servers.switch_string")%></span>
 <input type="checkbox" checked=true class="custom-switch-input" id="server_box">
-<span class="custom-switch-indicator float-right" id="switch"></span>
+<span class="custom-switch-indicator float-right <%= 'disabled' unless current_user.payment_success %>" id="switch"></span>
 <br></br>
 <div>
   <span class="ml-0 custom-switch-description"><%= t("administrator.servers.usage")%>:&nbsp</span>
@@ -29,6 +29,10 @@
       server("STATUS");
 
       $("#switch").on('click' ,function () {
+        if ($('#switch').hasClass('disabled')) {
+          return;
+        }
+
         status = !status
         changeCheckbox(status)
         if(status)
@@ -42,7 +46,7 @@
       }
 
       function server(action){
-          $.ajax({url: "/b/admins/server_action/"+action, success: function(result){
+          $.ajax({url: "<%= admin_server_action_path('ACTION') %>".replace('ACTION', action), success: function(result){
                   if(result.Name =="running" || result.Name == "pending")
                   {
                       status = true
@@ -55,7 +59,7 @@
                   $("#server_box").attr("checked", status);
                   let tmp = status?"on":"off"
                   if(action != "STATUS"){
-                    $.ajax({url: "/b/admins/server_message/"+tmp, success: function(result){
+                    $.ajax({url: "<%= admin_server_message_path('MESSAGE') %>".replace('MESSAGE', tmp), success: function(result){
                     }});
     }else{
       $("#price").html(parseFloat(result['hours']).toFixed(2) + " Hours")

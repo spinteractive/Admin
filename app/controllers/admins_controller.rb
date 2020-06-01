@@ -46,6 +46,7 @@ class AdminsController < ApplicationController
   def server_action
     state = case params[:message]
             when 'START'
+              return head(:forbidden) unless current_user.payment_success
               ServerService.new(current_user.instance).start
             when 'STOP'
               ServerService.new(current_user.instance).stop
