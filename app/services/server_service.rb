@@ -1,6 +1,6 @@
 class ServerService
   def initialize(instance)
-    @instance = instance
+    @instance = instance || ENV['BBB_INSTANCE']
   end
 
   def status
