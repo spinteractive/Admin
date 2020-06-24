@@ -41,8 +41,13 @@ class Ability
 
       can [:server_recordings, :server_rooms], :admin if highest_role.get_permission("can_manage_rooms_recordings")
 
+      if user.has_role?('Teacher')
+        can [:server_action, :server_message, :servers], :admin
+      end
+
       if !highest_role.get_permission("can_edit_site_settings") && !highest_role.get_permission("can_edit_roles") &&
-         !highest_role.get_permission("can_manage_users") && !highest_role.get_permission("can_manage_rooms_recordings")
+         !highest_role.get_permission("can_manage_users") && !highest_role.get_permission("can_manage_rooms_recordings") &&
+         !user.has_role?('Teacher')
         cannot :manage, AdminsController
       end
     end
