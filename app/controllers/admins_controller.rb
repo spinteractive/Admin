@@ -46,9 +46,10 @@ class AdminsController < ApplicationController
   def server_action
     state = case params[:message]
             when 'START'
-              return head(:forbidden) unless current_user.payment_success
+              return head(:forbidden) unless payment_success?
               ServerService.new(current_user.instance).start
             when 'STOP'
+              return head(:forbidden) unless payment_success?
               ServerService.new(current_user.instance).stop
             else
               ServerService.new(current_user.instance).status
@@ -56,6 +57,11 @@ class AdminsController < ApplicationController
 
     render json: state
   end
+
+  def payment_success?
+    User.where(payment_success: true).exists?
+  end
+  helper_method :payment_success?
 
   # GET /admins
   def index

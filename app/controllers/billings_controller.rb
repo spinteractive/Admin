@@ -1,6 +1,7 @@
 class BillingsController < ApplicationController
 	rescue_from Stripe::CardError, with: :catch_exception
   skip_before_action :verify_authenticity_token, only: :payment_failed
+  authorize_resource class: false, except: :payment_failed
 
 	def index
 	end

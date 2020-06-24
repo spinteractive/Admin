@@ -22,12 +22,14 @@ class Ability
   def initialize(user)
     if !user
       cannot :manage, AdminsController
+      cannot :manage, BillingsController
     elsif user.has_role? :super_admin
       can :manage, :all
     else
       highest_role = user.highest_priority_role
       if highest_role.get_permission("can_edit_site_settings")
         can [:server_action, :server_message, :servers,:site_settings, :update_settings, :coloring, :registration_method], :admin
+        can :manage, :billing
       end
 
       if highest_role.get_permission("can_edit_roles")
@@ -45,10 +47,17 @@ class Ability
         can [:server_action, :server_message, :servers], :admin
       end
 
-      if !highest_role.get_permission("can_edit_site_settings") && !highest_role.get_permission("can_edit_roles") &&
-         !highest_role.get_permission("can_manage_users") && !highest_role.get_permission("can_manage_rooms_recordings") &&
-         !user.has_role?('Teacher')
+      no_edit_permissions = !highest_role.get_permission("can_edit_site_settings") &&
+                            !highest_role.get_permission("can_edit_roles") &&
+                            !highest_role.get_permission("can_manage_users") &&
+                            !highest_role.get_permission("can_manage_rooms_recordings")
+
+      if no_edit_permissions && !user.has_role?('Teacher')
         cannot :manage, AdminsController
+      end
+
+      if no_edit_permissions
+        cannot :manage, BillingsController
       end
     end
   end
