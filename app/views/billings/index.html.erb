@@ -17,9 +17,11 @@
       <% if current_user.payment_success %>
         <p>You have an active subscription</p>
 
-        <div>
-          <%= link_to "Cancel subscription", cancel_billings_path, class: "btn btn-secondary float-left mr-4" %>
-          <p class="text-muted float-left mt-2">Be aware that after cancellation you won't be able to start the server</p>
+        <div class="form-group">
+          <label class="form-label text-muted">Be aware that after cancellation you won't be able to start the server</label>
+          <%= button_to cancel_billings_path, class: "btn btn-secondary" do %>
+            Cancel subscription
+          <% end %>
         </div>
       <% else %>
 
