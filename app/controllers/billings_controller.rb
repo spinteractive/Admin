@@ -18,6 +18,10 @@ class BillingsController < ApplicationController
   end
 
   def cancel
+    StripeCancelSubscriptionService.new(current_user).call
+    flash[:success] = 'Subscription has been successfully canceled. However, if there was any unpaid usage, a charge will be done after the end of a current month'
+
+    redirect_to billings_path
   end
 
   def payment_failed
