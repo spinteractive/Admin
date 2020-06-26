@@ -17,6 +17,9 @@ class BillingsController < ApplicationController
     redirect_to billings_path
   end
 
+  def cancel
+  end
+
   def payment_failed
     payload = request.body.read
     signature_header = request.env['HTTP_STRIPE_SIGNATURE']

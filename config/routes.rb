@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     resources :billings do
       collection do
         post :checkout
+        post :cancel
         post :payment_failed
       end  
     end

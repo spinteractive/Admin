@@ -6,11 +6,21 @@
       <%= render "admins/components/menu_buttons" %>
     </div>
     <div class="col-lg-9">
+      <div class="setting-view card">
+        <div class="card-body p-6">
+          <div class="card-title text-primary">
+            <div class="form-group">
+              <%= render "shared/components/subtitle", subtitle: 'Billings', search: false %>
+            </div>
+          </div>
 
       <% if current_user.payment_success %>
+        <p>You have an active subscription</p>
 
-        <p>You have an active subscription.</p>
-
+        <div>
+          <%= link_to "Cancel subscription", cancel_billings_path, class: "btn btn-secondary float-left mr-4" %>
+          <p class="text-muted float-left mt-2">Be aware that after cancellation you won't be able to start the server</p>
+        </div>
       <% else %>
 
       <%= form_tag checkout_billings_path, method: :post , id: "checkout", data: { stripe_key: Rails.application.secrets.stripe_publishable_key } do %>
@@ -36,6 +46,8 @@
 
       <% end %>
 			
+        </div>
+      </div>
     </div>
   </div>
 </div>
