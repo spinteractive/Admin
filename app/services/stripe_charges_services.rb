@@ -10,7 +10,7 @@ class StripeChargesServices
   def call
     create_or_update_customer_with_card
 
-    create_subscription unless @user.subscription_token
+    create_or_update_subscription
 
     @user.update(payment_success: true)
 
@@ -50,6 +50,14 @@ class StripeChargesServices
     )
   end
 
+  def create_or_update_subscription(id)
+    if @user.subscription_token.nil?
+      create_subscription
+    else
+      update_subscription
+    end
+  end
+
   def create_subscription
     now = Time.now.getlocal(BILLING_TIME_ZONE)
     end_of_period = Time.new(now.year, now.month + 1, 1, 0, 0, 0, BILLING_TIME_ZONE)
@@ -64,5 +72,18 @@ class StripeChargesServices
     @user.update(subscription_token: subscription.items.first.id)
 
     subscription
+  end
+
+  def update_subscription
+    s = Stripe::Subscription.retrieve(@user.subscription_token)
+    if s.status == 'active' && s.cancel_at_period_end == true
+      reactivate_subscription(id)
+    else s.status == 'canceled'
+      create_subscription
+    end
+  end
+
+  def reactivate_subscription(id)
+    Stripe::Subscription.update(id, cancel_at_period_end: false)
   end
 end
