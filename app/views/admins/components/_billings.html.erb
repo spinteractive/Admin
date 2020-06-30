@@ -1,40 +1,5 @@
 <% if current_user.payment_success %>
-
-  <div class="form-group">
-    <label class="form-label">Subscription</label>
-    <p>You have an active subscription</p>
-  </div>
-
-  <div class="form-group">
-    <label class="form-label">Cancellation</label>
-    <label class="form-label text-muted">Be aware that after cancellation you won't be able to start the server</label>
-    <label class="form-label text-muted">Please also note that if there is any unpaid usage, last charge will be done after the end of a current month</label>
-    <%= button_to cancel_billings_path, class: "btn btn-secondary" do %>
-      Cancel subscription
-    <% end %>
-  </div>
-
+  <%= render "admins/components/billings_subscription" %>
 <% else %>
-
-  <%= form_tag checkout_billings_path, method: :post , id: "checkout", data: { stripe_key: Rails.application.secrets.stripe_publishable_key } do %>
-    <%= label_tag "Card Number", nil, required: true %>
-    <div class="control-group">
-      <div class="controls">
-        <%= text_field_tag :card_number, nil, class: "input-block-level", "data-stripe" => "number" %>
-      </div>
-    </div>
-    <%= label_tag "Card Verification", nil, required: true %>
-    <div class="control-group">
-      <div class="controls">
-        <%= text_field_tag :card_verification, nil, class: "input-block-level", "data-stripe" => "cvv" %>
-      </div>
-    </div>
-    <%= label_tag "Card Expires", nil, required: true %>
-    <%= select_tag :exp_month, options_for_select(Date::MONTHNAMES.compact.each_with_index.map { |name,i| ["#{i+1} - #{name}", i+1] }), include_blank: false, "data-stripe" => "exp-month", class: "span2" %>
-    <%= select_tag :exp_year, options_for_select((Date.today.year..(Date.today.year+10)).to_a), include_blank: false, "data-stripe" => "exp-year", class: "span1" %>
-    <div class="actions">
-      <%= submit_tag " Payment", class: "btn", style: "color: white;background: rgb(242, 118, 73);" %>
-    </div>
-  <% end %>
-
+  <%= render "admins/components/billings_form" %>
 <% end %>
