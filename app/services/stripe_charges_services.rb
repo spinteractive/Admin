@@ -50,7 +50,7 @@ class StripeChargesServices
     )
   end
 
-  def create_or_update_subscription(id)
+  def create_or_update_subscription
     if @user.subscription_token.nil?
       create_subscription
     else
@@ -75,9 +75,13 @@ class StripeChargesServices
   end
 
   def update_subscription
-    s = Stripe::Subscription.retrieve(@user.subscription_token)
+    subscription_item_id = @user.subscription_token
+    subscription_item = Stripe::SubscriptionItem.retrieve(subscription_item_id)
+    subscription_id = subscription_item.subscription
+
+    s = Stripe::Subscription.retrieve(subscription_id)
     if s.status == 'active' && s.cancel_at_period_end == true
-      reactivate_subscription(id)
+      reactivate_subscription(subscription_id)
     else s.status == 'canceled'
       create_subscription
     end
