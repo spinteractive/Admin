@@ -1,9 +1,15 @@
 <span class="ml-0 custom-switch-description"><%= t("administrator.servers.switch_string")%></span>
 <input type="checkbox" checked=true class="custom-switch-input" id="server_box">
-<span class="custom-switch-indicator float-right <%= 'disabled' unless current_user.payment_success %>" id="switch"></span>
-<% unless current_user.payment_success %>
+<span class="custom-switch-indicator float-right <%= 'disabled' unless payment_success? %>" id="switch"></span>
+<% unless payment_success? %>
   <br>
-  <span class="ml-0 custom-switch-description float-right">Please <%= link_to 'enter your credit card', billings_path %> to start the server</span>
+  <span class="ml-0 custom-switch-description float-right">Please
+    <% if can? :index, :billing %>
+      <%= link_to 'enter your credit card', billings_path %>
+    <% else %>
+      ask your admin to enter a credit card
+    <% end %>
+    to start the server</span>
 <% end %>
 <br></br>
 <div>

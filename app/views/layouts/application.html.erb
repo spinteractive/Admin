@@ -35,8 +35,8 @@
     <meta property="og:url" content="<%= request.base_url %>" />
     <meta property="og:image" content="<%= logo_image %>" />
 
-    <%= favicon_link_tag 'ta-favicon.png', type: 'image/png' %>
-    <%= favicon_link_tag 'ta-favicon.png', rel: 'apple-touch-icon', type: 'image/png' %>
+    <%= favicon_link_tag Rails.configuration.branding_favicon, type: 'image/png' %>
+    <%= favicon_link_tag Rails.configuration.branding_favicon, rel: 'apple-touch-icon', type: 'image/png' %>
 
     <meta name="viewport" content= "width=device-width, user-scalable=no">
     <%= csrf_meta_tags %>

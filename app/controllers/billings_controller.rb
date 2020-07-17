@@ -1,6 +1,7 @@
 class BillingsController < ApplicationController
 	rescue_from Stripe::CardError, with: :catch_exception
   skip_before_action :verify_authenticity_token, only: :payment_failed
+  authorize_resource class: false, except: :payment_failed
 
 	def index
 	end
@@ -12,6 +13,13 @@ class BillingsController < ApplicationController
     else
       flash[:alert] = 'Card authorization failed'
     end
+
+    redirect_to billings_path
+  end
+
+  def cancel
+    StripeCancelSubscriptionService.new(current_user).call
+    flash[:success] = 'Subscription has been successfully canceled'
 
     redirect_to billings_path
   end

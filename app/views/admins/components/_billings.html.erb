@@ -1,0 +1,5 @@
+<% if current_user.payment_success %>
+  <%= render "admins/components/billings_subscription" %>
+<% else %>
+  <%= render "admins/components/billings_form" %>
+<% end %>

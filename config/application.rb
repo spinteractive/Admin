@@ -131,7 +131,9 @@ module Greenlight
     # DEFAULTS
 
     # Default branding image if the user does not specify one
-    config.branding_image_default = 'TA-logo-300.jpg'
+    config.branding_image_default = 'aw.jpg'
+
+    config.branding_favicon = 'aw-favicon.png'
 
     # Default primary color if the user does not specify one
     config.primary_color_default = "#467fcf"
