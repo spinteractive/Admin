@@ -131,18 +131,18 @@ module Greenlight
     # DEFAULTS
 
     # Default branding image if the user does not specify one
-    config.branding_image_default = 'aw.jpg'
+    config.branding_image_default = ENV['BRANDING_LOGO'] || 'branding-logo.png'
 
-    config.branding_favicon = 'aw-favicon.png'
+    config.branding_favicon = ENV['BRANDING_FAVICON'] || 'branding-favicon.ico'
 
     # Default primary color if the user does not specify one
-    config.primary_color_default = "#467fcf"
+    config.primary_color_default = ENV['PRIMARY_COLOR'] || "#467fcf"
 
     # Default primary color lighten if the user does not specify one
-    config.primary_color_lighten_default = "#e8eff9"
+    config.primary_color_lighten_default = ENV['PRIMARY_COLOR_LIGHTEN'] || "#e8eff9"
 
     # Default primary color darken if the user does not specify one
-    config.primary_color_darken_default = "#316cbe"
+    config.primary_color_darken_default = ENV['PRIMARY_COLOR_DARKEN'] || "#316cbe"
 
     # Default registration method if the user does not specify one
     config.registration_method_default = if ENV["DEFAULT_REGISTRATION"] == "invite"

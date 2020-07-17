@@ -12,6 +12,9 @@ vendor/bundle
 /db/*.sqlite3
 /db/*.sqlite3-journal
 
+/app/assets/images/branding-logo.*
+/app/assets/images/branding-favicon.*
+
 # Ignore static assets.
 /public/system/**
 /public/assets/**
