@@ -14,7 +14,7 @@
 %>
 
 <footer class="footer pt-3">
-  <p class="text-center mb-1"><%= t("footer.powered_by", href: link_to(t('brand'), t('brand_link'), target: "_blank", rel: "noopener")).html_safe %></p>
+  <p class="text-center mb-1"><%= t("footer.powered_by", href: link_to(Rails.configuration.brand_name, Rails.configuration.brand_link, target: "_blank", rel: "noopener")).html_safe %></p>
 </footer>
 
 <%= render "shared/components/cookie_warning" %>

@@ -28,7 +28,7 @@ class UserMailer < ApplicationMailer
     @url = url
     @image = logo_image
     @color = user_color
-    mail(to: @user.email, subject: t('landing.welcome'))
+    mail(to: @user.email, subject: t('landing.welcome', name: Rails.configuration.brand_name))
   end
 
   def password_reset(user, url, settings)

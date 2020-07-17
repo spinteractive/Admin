@@ -144,6 +144,10 @@ module Greenlight
     # Default primary color darken if the user does not specify one
     config.primary_color_darken_default = ENV['PRIMARY_COLOR_DARKEN'] || "#316cbe"
 
+    config.brand_name = ENV['BRAND_NAME'] || ''
+    config.brand_link = ENV['BRAND_LINK'] || ''
+    config.landing_about = ENV['LANDING_ABOUT'] || ''
+
     # Default registration method if the user does not specify one
     config.registration_method_default = if ENV["DEFAULT_REGISTRATION"] == "invite"
       config.registration_methods[:invite]

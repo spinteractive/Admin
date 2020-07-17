@@ -167,9 +167,6 @@ en:
     billings:
       title: Billings
   add_to_google_calendar: "Add to Google Calendar"
-  brand: Austin Warriors
-  brand_link: https://austinwarriors.org
-  bigbluebutton: Austin Warriors
   bigbluebutton_exception: Oops, there was an error when starting the meeting!
   cancel: Cancel
   cookies:
@@ -268,8 +265,7 @@ en:
     search:
       start: Start searching...
   landing:
-    about: A faith-based educational pre-school, elementary, and secondary alternative institute
-    welcome: Welcome to Austin Warriors
+    welcome: Welcome to %{name}
     video: For more information or to get started, please navigate to our Website.
     upgrade: Show me how to upgrade to 2.0!
     version: We've released a new version of Greenlight, but your database isn't compatible.
